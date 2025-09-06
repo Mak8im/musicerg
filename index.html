@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Музыкальный плеер с 10 треками</title>
+    <title>Музыкальный плеер с иконками</title>
     <style>
         * {
             margin: 0;
@@ -61,43 +61,6 @@
             font-size: 20px;
         }
         
-        .player-controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-        
-        .btn {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        
-        .btn-play {
-            background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
-            color: white;
-        }
-        
-        .btn-pause {
-            background: linear-gradient(to right, #ff758c 0%, #ff7eb3 100%);
-            color: white;
-        }
-        
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-        }
-        
-        .btn:active {
-            transform: translateY(0);
-        }
-        
         .playlist {
             list-style: none;
         }
@@ -123,6 +86,35 @@
             background: rgba(76, 163, 230, 0.2);
             border-color: #4ca3e6;
             box-shadow: 0 0 15px rgba(76, 163, 230, 0.4);
+        }
+        
+        .play-control {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .song-item .play-icon {
+            display: block;
+        }
+        
+        .song-item .pause-icon {
+            display: none;
+        }
+        
+        .song-item.playing .play-icon {
+            display: none;
+        }
+        
+        .song-item.playing .pause-icon {
+            display: block;
         }
         
         .song-number {
@@ -168,11 +160,6 @@
                 font-size: 26px;
             }
             
-            .btn {
-                padding: 10px 20px;
-                font-size: 14px;
-            }
-            
             .song-item {
                 padding: 12px;
             }
@@ -187,32 +174,47 @@
     <div class="container">
         <h1>Музыкальный Плеер с 10 Треками</h1>
         
-        <div class="player-controls">
-            <button class="btn btn-play" id="playBtn">▶️ Воспроизвести</button>
-            <button class="btn btn-pause" id="pauseBtn">⏸️ Пауза</button>
-        </div>
-        
         <div class="columns-container">
             <div class="column">
                 <h2 class="column-title">Первые 5 треков</h2>
                 <ul class="playlist">
                     <li class="song-item" data-song="sound1">
+                        <div class="play-control">
+                            <span class="play-icon">▶️</span>
+                            <span class="pause-icon">⏸️</span>
+                        </div>
                         <div class="song-number">1</div>
                         <div class="song-title">Лиса</div>
                     </li>
                     <li class="song-item" data-song="sound2">
+                        <div class="play-control">
+                            <span class="play-icon">▶️</span>
+                            <span class="pause-icon">⏸️</span>
+                        </div>
                         <div class="song-number">2</div>
                         <div class="song-title">Я капибара</div>
                     </li>
                     <li class="song-item" data-song="sound3">
+                        <div class="play-control">
+                            <span class="play-icon">▶️</span>
+                            <span class="pause-icon">⏸️</span>
+                        </div>
                         <div class="song-number">3</div>
                         <div class="song-title">Сигма бой</div>
                     </li>
                     <li class="song-item" data-song="sound4">
+                        <div class="play-control">
+                            <span class="play-icon">▶️</span>
+                            <span class="pause-icon">⏸️</span>
+                        </div>
                         <div class="song-number">4</div>
                         <div class="song-title">Обоюдно</div>
                     </li>
                     <li class="song-item" data-song="sound5">
+                        <div class="play-control">
+                            <span class="play-icon">▶️</span>
+                            <span class="pause-icon">⏸️</span>
+                        </div>
                         <div class="song-number">5</div>
                         <div class="song-title">Ты и Я</div>
                     </li>
@@ -223,22 +225,42 @@
                 <h2 class="column-title">Следующие 5 треков</h2>
                 <ul class="playlist">
                     <li class="song-item" data-song="sound6">
+                        <div class="play-control">
+                            <span class="play-icon">▶️</span>
+                            <span class="pause-icon">⏸️</span>
+                        </div>
                         <div class="song-number">6</div>
                         <div class="song-title">Бобр</div>
                     </li>
                     <li class="song-item" data-song="sound7">
+                        <div class="play-control">
+                            <span class="play-icon">▶️</span>
+                            <span class="pause-icon">⏸️</span>
+                        </div>
                         <div class="song-number">7</div>
                         <div class="song-title">10</div>
                     </li>
                     <li class="song-item" data-song="sound8">
+                        <div class="play-control">
+                            <span class="play-icon">▶️</span>
+                            <span class="pause-icon">⏸️</span>
+                        </div>
                         <div class="song-number">8</div>
                         <div class="song-title">Облака</div>
                     </li>
                     <li class="song-item" data-song="sound9">
+                        <div class="play-control">
+                            <span class="play-icon">▶️</span>
+                            <span class="pause-icon">⏸️</span>
+                        </div>
                         <div class="song-number">9</div>
                         <div class="song-title">Айдахар</div>
                     </li>
                     <li class="song-item" data-song="sound10">
+                        <div class="play-control">
+                            <span class="play-icon">▶️</span>
+                            <span class="pause-icon">⏸️</span>
+                        </div>
                         <div class="song-number">10</div>
                         <div class="song-title">Любимка</div>
                     </li>
@@ -254,12 +276,11 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const audioPlayer = document.getElementById('audioPlayer');
-            const playBtn = document.getElementById('playBtn');
-            const pauseBtn = document.getElementById('pauseBtn');
             const songItems = document.querySelectorAll('.song-item');
             const nowPlaying = document.getElementById('nowPlaying');
             
             let currentSong = null;
+            let isPlaying = false;
             
             // Функция для загрузки и воспроизведения песни
             function loadSong(songName) {
@@ -267,56 +288,52 @@
                 if (currentSong) {
                     audioPlayer.pause();
                     document.querySelector(`.song-item[data-song="${currentSong}"]`).classList.remove('playing');
+                    isPlaying = false;
                 }
                 
                 // Устанавливаем новую песню (здесь должны быть ваши звуковые файлы)
                 audioPlayer.src = `${songName}.mp3`;
                 audioPlayer.play();
                 currentSong = songName;
+                isPlaying = true;
                 
                 // Обновляем интерфейс
                 document.querySelector(`.song-item[data-song="${songName}"]`).classList.add('playing');
                 nowPlaying.textContent = `Сейчас играет: ${document.querySelector(`.song-item[data-song="${songName}"] .song-title`).textContent}`;
-                
-                // Обновляем кнопки
-                playBtn.disabled = true;
-                pauseBtn.disabled = false;
+            }
+            
+            // Функция для переключения воспроизведения/паузы
+            function togglePlayPause(songName) {
+                if (currentSong === songName) {
+                    // Если кликнули на текущую играющую песню
+                    if (isPlaying) {
+                        audioPlayer.pause();
+                        isPlaying = false;
+                        nowPlaying.textContent = 'На паузе';
+                    } else {
+                        audioPlayer.play();
+                        isPlaying = true;
+                        nowPlaying.textContent = `Сейчас играет: ${document.querySelector(`.song-item[data-song="${songName}"] .song-title`).textContent}`;
+                    }
+                } else {
+                    // Если кликнули на другую песню
+                    loadSong(songName);
+                }
             }
             
             // Обработчики для выбора песен
             songItems.forEach(item => {
                 item.addEventListener('click', function() {
-                    loadSong(this.getAttribute('data-song'));
+                    const songName = this.getAttribute('data-song');
+                    togglePlayPause(songName);
                 });
-            });
-            
-            // Обработчик для кнопки play
-            playBtn.addEventListener('click', function() {
-                if (currentSong) {
-                    audioPlayer.play();
-                    playBtn.disabled = true;
-                    pauseBtn.disabled = false;
-                    nowPlaying.textContent = `Сейчас играет: ${document.querySelector(`.song-item[data-song="${currentSong}"] .song-title`).textContent}`;
-                } else if (songItems.length > 0) {
-                    // Если ни одна песня не выбрана, выбираем первую
-                    loadSong(songItems[0].getAttribute('data-song'));
-                }
-            });
-            
-            // Обработчик для кнопки pause
-            pauseBtn.addEventListener('click', function() {
-                audioPlayer.pause();
-                playBtn.disabled = false;
-                pauseBtn.disabled = true;
-                nowPlaying.textContent = 'На паузе';
             });
             
             // Когда песня заканчивается
             audioPlayer.addEventListener('ended', function() {
                 document.querySelector(`.song-item[data-song="${currentSong}"]`).classList.remove('playing');
                 currentSong = null;
-                playBtn.disabled = false;
-                pauseBtn.disabled = true;
+                isPlaying = false;
                 nowPlaying.textContent = 'Песня завершена';
             });
         });
