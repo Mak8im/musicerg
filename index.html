@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Музыкальный плеер с иконками</title>
+    <title>Музыкальный плеер</title>
     <style>
         * {
             margin: 0;
@@ -88,35 +88,6 @@
             box-shadow: 0 0 15px rgba(76, 163, 230, 0.4);
         }
         
-        .play-control {
-            width: 36px;
-            height: 36px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-        
-        .song-item .play-icon {
-            display: block;
-        }
-        
-        .song-item .pause-icon {
-            display: none;
-        }
-        
-        .song-item.playing .play-icon {
-            display: none;
-        }
-        
-        .song-item.playing .pause-icon {
-            display: block;
-        }
-        
         .song-number {
             width: 30px;
             height: 30px;
@@ -179,42 +150,22 @@
                 <h2 class="column-title">Первые 5 треков</h2>
                 <ul class="playlist">
                     <li class="song-item" data-song="sound1">
-                        <div class="play-control">
-                            <span class="play-icon">▶️</span>
-                            <span class="pause-icon">⏸️</span>
-                        </div>
                         <div class="song-number">1</div>
                         <div class="song-title">Лиса</div>
                     </li>
                     <li class="song-item" data-song="sound2">
-                        <div class="play-control">
-                            <span class="play-icon">▶️</span>
-                            <span class="pause-icon">⏸️</span>
-                        </div>
                         <div class="song-number">2</div>
                         <div class="song-title">Я капибара</div>
                     </li>
                     <li class="song-item" data-song="sound3">
-                        <div class="play-control">
-                            <span class="play-icon">▶️</span>
-                            <span class="pause-icon">⏸️</span>
-                        </div>
                         <div class="song-number">3</div>
                         <div class="song-title">Сигма бой</div>
                     </li>
                     <li class="song-item" data-song="sound4">
-                        <div class="play-control">
-                            <span class="play-icon">▶️</span>
-                            <span class="pause-icon">⏸️</span>
-                        </div>
                         <div class="song-number">4</div>
                         <div class="song-title">Обоюдно</div>
                     </li>
                     <li class="song-item" data-song="sound5">
-                        <div class="play-control">
-                            <span class="play-icon">▶️</span>
-                            <span class="pause-icon">⏸️</span>
-                        </div>
                         <div class="song-number">5</div>
                         <div class="song-title">Ты и Я</div>
                     </li>
@@ -225,42 +176,22 @@
                 <h2 class="column-title">Следующие 5 треков</h2>
                 <ul class="playlist">
                     <li class="song-item" data-song="sound6">
-                        <div class="play-control">
-                            <span class="play-icon">▶️</span>
-                            <span class="pause-icon">⏸️</span>
-                        </div>
                         <div class="song-number">6</div>
                         <div class="song-title">Бобр</div>
                     </li>
                     <li class="song-item" data-song="sound7">
-                        <div class="play-control">
-                            <span class="play-icon">▶️</span>
-                            <span class="pause-icon">⏸️</span>
-                        </div>
                         <div class="song-number">7</div>
                         <div class="song-title">10</div>
                     </li>
                     <li class="song-item" data-song="sound8">
-                        <div class="play-control">
-                            <span class="play-icon">▶️</span>
-                            <span class="pause-icon">⏸️</span>
-                        </div>
                         <div class="song-number">8</div>
                         <div class="song-title">Облака</div>
                     </li>
                     <li class="song-item" data-song="sound9">
-                        <div class="play-control">
-                            <span class="play-icon">▶️</span>
-                            <span class="pause-icon">⏸️</span>
-                        </div>
                         <div class="song-number">9</div>
                         <div class="song-title">Айдахар</div>
                     </li>
                     <li class="song-item" data-song="sound10">
-                        <div class="play-control">
-                            <span class="play-icon">▶️</span>
-                            <span class="pause-icon">⏸️</span>
-                        </div>
                         <div class="song-number">10</div>
                         <div class="song-title">Любимка</div>
                     </li>
@@ -309,10 +240,12 @@
                     if (isPlaying) {
                         audioPlayer.pause();
                         isPlaying = false;
+                        document.querySelector(`.song-item[data-song="${songName}"]`).classList.remove('playing');
                         nowPlaying.textContent = 'На паузе';
                     } else {
                         audioPlayer.play();
                         isPlaying = true;
+                        document.querySelector(`.song-item[data-song="${songName}"]`).classList.add('playing');
                         nowPlaying.textContent = `Сейчас играет: ${document.querySelector(`.song-item[data-song="${songName}"] .song-title`).textContent}`;
                     }
                 } else {
