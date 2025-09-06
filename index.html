@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Музыкальный плеер</title>
+    <title>Музыкальный плеер с перемоткой</title>
     <style>
         * {
             margin: 0;
@@ -66,26 +66,29 @@
         }
         
         .song-item {
-            padding: 15px;
-            margin: 12px 0;
+            margin: 15px 0;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 12px;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
+            padding: 15px;
             transition: all 0.3s ease;
             border: 2px solid transparent;
+            overflow: hidden;
         }
         
         .song-item:hover {
             background: rgba(255, 255, 255, 0.15);
-            transform: translateX(5px);
         }
         
         .song-item.playing {
             background: rgba(76, 163, 230, 0.2);
             border-color: #4ca3e6;
             box-shadow: 0 0 15px rgba(76, 163, 230, 0.4);
+        }
+        
+        .song-header {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
         }
         
         .song-number {
@@ -105,6 +108,46 @@
             flex: 1;
             text-align: left;
             font-size: 18px;
+        }
+        
+        .progress-container {
+            margin-top: 0;
+            padding: 0 5px;
+            height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .song-item.playing .progress-container {
+            margin-top: 10px;
+            height: auto;
+            opacity: 1;
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 12px;
+            color: #a0d2ff;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.1s ease;
         }
         
         .now-playing {
@@ -138,6 +181,10 @@
             .song-title {
                 font-size: 16px;
             }
+            
+            .progress-info {
+                font-size: 11px;
+            }
         }
     </style>
 </head>
@@ -150,24 +197,79 @@
                 <h2 class="column-title">Первые 5 треков</h2>
                 <ul class="playlist">
                     <li class="song-item" data-song="sound1">
-                        <div class="song-number">1</div>
-                        <div class="song-title">Лиса</div>
+                        <div class="song-header">
+                            <div class="song-number">1</div>
+                            <div class="song-title">Лиса</div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-info">
+                                <span class="current-time">0:00</span>
+                                <span class="total-time">0:00</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress"></div>
+                            </div>
+                        </div>
                     </li>
                     <li class="song-item" data-song="sound2">
-                        <div class="song-number">2</div>
-                        <div class="song-title">Я капибара</div>
+                        <div class="song-header">
+                            <div class="song-number">2</div>
+                            <div class="song-title">Я капибара</div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-info">
+                                <span class="current-time">0:00</span>
+                                <span class="total-time">0:00</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress"></div>
+                            </div>
+                        </div>
                     </li>
                     <li class="song-item" data-song="sound3">
-                        <div class="song-number">3</div>
-                        <div class="song-title">Сигма бой</div>
+                        <div class="song-header">
+                            <div class="song-number">3</div>
+                            <div class="song-title">Сигма бой</div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-info">
+                                <span class="current-time">0:00</span>
+                                <span class="total-time">0:00</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress"></div>
+                            </div>
+                        </div>
                     </li>
                     <li class="song-item" data-song="sound4">
-                        <div class="song-number">4</div>
-                        <div class="song-title">Обоюдно</div>
+                        <div class="song-header">
+                            <div class="song-number">4</div>
+                            <div class="song-title">Обоюдно</div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-info">
+                                <span class="current-time">0:00</span>
+                                <span class="total-time">0:00</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress"></div>
+                            </div>
+                        </div>
                     </li>
                     <li class="song-item" data-song="sound5">
-                        <div class="song-number">5</div>
-                        <div class="song-title">Ты и Я</div>
+                        <div class="song-header">
+                            <div class="song-number">5</div>
+                            <div class="song-title">Ты и Я</div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-info">
+                                <span class="current-time">0:00</span>
+                                <span class="total-time">0:00</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress"></div>
+                            </div>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -176,24 +278,79 @@
                 <h2 class="column-title">Следующие 5 треков</h2>
                 <ul class="playlist">
                     <li class="song-item" data-song="sound6">
-                        <div class="song-number">6</div>
-                        <div class="song-title">Бобр</div>
+                        <div class="song-header">
+                            <div class="song-number">6</div>
+                            <div class="song-title">Бобр</div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-info">
+                                <span class="current-time">0:00</span>
+                                <span class="total-time">0:00</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress"></div>
+                            </div>
+                        </div>
                     </li>
                     <li class="song-item" data-song="sound7">
-                        <div class="song-number">7</div>
-                        <div class="song-title">10</div>
+                        <div class="song-header">
+                            <div class="song-number">7</div>
+                            <div class="song-title">10</div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-info">
+                                <span class="current-time">0:00</span>
+                                <span class="total-time">0:00</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress"></div>
+                            </div>
+                        </div>
                     </li>
                     <li class="song-item" data-song="sound8">
-                        <div class="song-number">8</div>
-                        <div class="song-title">Облака</div>
+                        <div class="song-header">
+                            <div class="song-number">8</div>
+                            <div class="song-title">Облака</div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-info">
+                                <span class="current-time">0:00</span>
+                                <span class="total-time">0:00</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress"></div>
+                            </div>
+                        </div>
                     </li>
                     <li class="song-item" data-song="sound9">
-                        <div class="song-number">9</div>
-                        <div class="song-title">Айдахар</div>
+                        <div class="song-header">
+                            <div class="song-number">9</div>
+                            <div class="song-title">Айдахар</div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-info">
+                                <span class="current-time">0:00</span>
+                                <span class="total-time">0:00</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress"></div>
+                            </div>
+                        </div>
                     </li>
                     <li class="song-item" data-song="sound10">
-                        <div class="song-number">10</div>
-                        <div class="song-title">Любимка</div>
+                        <div class="song-header">
+                            <div class="song-number">10</div>
+                            <div class="song-title">Любимка</div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-info">
+                                <span class="current-time">0:00</span>
+                                <span class="total-time">0:00</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress"></div>
+                            </div>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -213,6 +370,48 @@
             let currentSong = null;
             let isPlaying = false;
             
+            // Форматирование времени в мм:сс
+            function formatTime(seconds) {
+                if (isNaN(seconds)) return '0:00';
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+            }
+            
+            // Обновление прогресса для текущего трека
+            function updateProgress() {
+                if (!currentSong) return;
+                
+                const { currentTime, duration } = audioPlayer;
+                const progressPercent = (currentTime / duration) * 100;
+                
+                const currentSongElement = document.querySelector(`.song-item[data-song="${currentSong}"]`);
+                if (currentSongElement) {
+                    const progressBar = currentSongElement.querySelector('.progress');
+                    const currentTimeEl = currentSongElement.querySelector('.current-time');
+                    const totalTimeEl = currentSongElement.querySelector('.total-time');
+                    
+                    progressBar.style.width = `${progressPercent}%`;
+                    currentTimeEl.textContent = formatTime(currentTime);
+                    
+                    if (!isNaN(duration)) {
+                        totalTimeEl.textContent = formatTime(duration);
+                    }
+                }
+            }
+            
+            // Установка прогресса при клике на полосу
+            function setProgress(e, songName) {
+                if (currentSong !== songName) return;
+                
+                const progressBar = e.currentTarget;
+                const width = progressBar.clientWidth;
+                const clickX = e.offsetX;
+                const duration = audioPlayer.duration;
+                
+                audioPlayer.currentTime = (clickX / width) * duration;
+            }
+            
             // Функция для загрузки и воспроизведения песни
             function loadSong(songName) {
                 // Если уже играет какая-то песня, останавливаем её
@@ -222,7 +421,7 @@
                     isPlaying = false;
                 }
                 
-                // Устанавливаем новую песню (здесь должны быть ваши звуковые файлы)
+                // Устанавливаем новую песню
                 audioPlayer.src = `${songName}.mp3`;
                 audioPlayer.play();
                 currentSong = songName;
@@ -231,6 +430,17 @@
                 // Обновляем интерфейс
                 document.querySelector(`.song-item[data-song="${songName}"]`).classList.add('playing');
                 nowPlaying.textContent = `Сейчас играет: ${document.querySelector(`.song-item[data-song="${songName}"] .song-title`).textContent}`;
+                
+                // Сбрасываем прогресс для всех треков
+                document.querySelectorAll('.progress').forEach(progress => {
+                    progress.style.width = '0%';
+                });
+                document.querySelectorAll('.current-time').forEach(el => {
+                    el.textContent = '0:00';
+                });
+                document.querySelectorAll('.total-time').forEach(el => {
+                    el.textContent = '0:00';
+                });
             }
             
             // Функция для переключения воспроизведения/паузы
@@ -240,12 +450,10 @@
                     if (isPlaying) {
                         audioPlayer.pause();
                         isPlaying = false;
-                        document.querySelector(`.song-item[data-song="${songName}"]`).classList.remove('playing');
                         nowPlaying.textContent = 'На паузе';
                     } else {
                         audioPlayer.play();
                         isPlaying = true;
-                        document.querySelector(`.song-item[data-song="${songName}"]`).classList.add('playing');
                         nowPlaying.textContent = `Сейчас играет: ${document.querySelector(`.song-item[data-song="${songName}"] .song-title`).textContent}`;
                     }
                 } else {
@@ -254,20 +462,37 @@
                 }
             }
             
-            // Обработчики для выбора песен
+            // Инициализация
             songItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    const songName = this.getAttribute('data-song');
+                const songName = item.getAttribute('data-song');
+                const progressBar = item.querySelector('.progress-bar');
+                const songHeader = item.querySelector('.song-header');
+                
+                // Клик по заголовку песни - воспроизведение/пауза
+                songHeader.addEventListener('click', function() {
                     togglePlayPause(songName);
+                });
+                
+                // Клик по прогресс-бару - перемотка
+                progressBar.addEventListener('click', function(e) {
+                    setProgress(e, songName);
                 });
             });
             
-            // Когда песня заканчивается
+            // События для аудиоплеера
+            audioPlayer.addEventListener('timeupdate', updateProgress);
             audioPlayer.addEventListener('ended', function() {
-                document.querySelector(`.song-item[data-song="${currentSong}"]`).classList.remove('playing');
-                currentSong = null;
-                isPlaying = false;
-                nowPlaying.textContent = 'Песня завершена';
+                if (currentSong) {
+                    document.querySelector(`.song-item[data-song="${currentSong}"]`).classList.remove('playing');
+                    currentSong = null;
+                    isPlaying = false;
+                    nowPlaying.textContent = 'Песня завершена';
+                }
+            });
+            
+            // Загрузка метаданных для отображения длительности
+            audioPlayer.addEventListener('loadedmetadata', function() {
+                updateProgress();
             });
         });
     </script>
