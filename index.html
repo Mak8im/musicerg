@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Музыкальный плеер</title>
+    <title>Музыкальный плеер с 10 треками</title>
     <style>
         * {
             margin: 0;
@@ -26,7 +26,7 @@
         
         .container {
             width: 100%;
-            max-width: 500px;
+            max-width: 900px;
             background: rgba(30, 30, 40, 0.85);
             border-radius: 20px;
             padding: 30px;
@@ -40,6 +40,25 @@
             color: #6cb2eb;
             font-size: 32px;
             text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .columns-container {
+            display: flex;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .column {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .column-title {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #6cb2eb;
+            color: #6cb2eb;
+            font-size: 20px;
         }
         
         .player-controls {
@@ -81,7 +100,6 @@
         
         .playlist {
             list-style: none;
-            margin-top: 20px;
         }
         
         .song-item {
@@ -135,7 +153,12 @@
             color: #a0d2ff;
         }
         
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
+            .columns-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
             .container {
                 padding: 20px;
                 border-radius: 15px;
@@ -162,35 +185,66 @@
 </head>
 <body>
     <div class="container">
-        <h1>Музыкальный Плеер</h1>
+        <h1>Музыкальный Плеер с 10 Треками</h1>
         
         <div class="player-controls">
             <button class="btn btn-play" id="playBtn">▶️ Воспроизвести</button>
             <button class="btn btn-pause" id="pauseBtn">⏸️ Пауза</button>
         </div>
         
-        <ul class="playlist">
-            <li class="song-item" data-song="sound1">
-                <div class="song-number">1</div>
-                <div class="song-title">Трек 1 - Рассвет</div>
-            </li>
-            <li class="song-item" data-song="sound2">
-                <div class="song-number">2</div>
-                <div class="song-title">Трек 2 - Лесная тропа</div>
-            </li>
-            <li class="song-item" data-song="sound3">
-                <div class="song-number">3</div>
-                <div class="song-title">Трек 3 - Морской бриз</div>
-            </li>
-            <li class="song-item" data-song="sound4">
-                <div class="song-number">4</div>
-                <div class="song-title">Трек 4 - Горный воздух</div>
-            </li>
-            <li class="song-item" data-song="sound5">
-                <div class="song-number">5</div>
-                <div class="song-title">Трек 5 - Звездная ночь</div>
-            </li>
-        </ul>
+        <div class="columns-container">
+            <div class="column">
+                <h2 class="column-title">Первые 5 треков</h2>
+                <ul class="playlist">
+                    <li class="song-item" data-song="sound1">
+                        <div class="song-number">1</div>
+                        <div class="song-title">Лиса</div>
+                    </li>
+                    <li class="song-item" data-song="sound2">
+                        <div class="song-number">2</div>
+                        <div class="song-title">Я капибара</div>
+                    </li>
+                    <li class="song-item" data-song="sound3">
+                        <div class="song-number">3</div>
+                        <div class="song-title">Сигма бой</div>
+                    </li>
+                    <li class="song-item" data-song="sound4">
+                        <div class="song-number">4</div>
+                        <div class="song-title">Обоюдно</div>
+                    </li>
+                    <li class="song-item" data-song="sound5">
+                        <div class="song-number">5</div>
+                        <div class="song-title">Ты и Я</div>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="column">
+                <h2 class="column-title">Следующие 5 треков</h2>
+                <ul class="playlist">
+                    <li class="song-item" data-song="sound6">
+                        <div class="song-number">6</div>
+                        <div class="song-title">Бобр</div>
+                    </li>
+                    <li class="song-item" data-song="sound7">
+                        <div class="song-number">7</div>
+                        <div class="song-title">10</div>
+                    </li>
+                    <li class="song-item" data-song="sound8">
+                        <div class="song-number">8</div>
+                        <div class="song-title">Облака</div>
+                    </li>
+                    <li class="song-item" data-song="sound9">
+                        <div class="song-number">9</div>
+                        <div class="song-title">Айдахар</div>
+                    </li>
+                    <li class="song-item" data-song="sound10">
+                        <div class="song-number">10</div>
+                        <div class="song-title">Любимка</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
         
         <div class="now-playing" id="nowPlaying">Сейчас не играет</div>
     </div>
