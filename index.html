@@ -140,6 +140,7 @@
             border-radius: 10px;
             overflow: hidden;
             cursor: pointer;
+            position: relative;
         }
         
         .progress {
@@ -148,6 +149,22 @@
             border-radius: 10px;
             width: 0%;
             transition: width 0.1s ease;
+        }
+        
+        .progress-handle {
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        
+        .progress-bar:hover .progress-handle {
+            opacity: 1;
         }
         
         .now-playing {
@@ -208,6 +225,7 @@
                             </div>
                             <div class="progress-bar">
                                 <div class="progress"></div>
+                                <div class="progress-handle"></div>
                             </div>
                         </div>
                     </li>
@@ -223,6 +241,7 @@
                             </div>
                             <div class="progress-bar">
                                 <div class="progress"></div>
+                                <div class="progress-handle"></div>
                             </div>
                         </div>
                     </li>
@@ -238,6 +257,7 @@
                             </div>
                             <div class="progress-bar">
                                 <div class="progress"></div>
+                                <div class="progress-handle"></div>
                             </div>
                         </div>
                     </li>
@@ -253,6 +273,7 @@
                             </div>
                             <div class="progress-bar">
                                 <div class="progress"></div>
+                                <div class="progress-handle"></div>
                             </div>
                         </div>
                     </li>
@@ -268,6 +289,7 @@
                             </div>
                             <div class="progress-bar">
                                 <div class="progress"></div>
+                                <div class="progress-handle"></div>
                             </div>
                         </div>
                     </li>
@@ -289,6 +311,7 @@
                             </div>
                             <div class="progress-bar">
                                 <div class="progress"></div>
+                                <div class="progress-handle"></div>
                             </div>
                         </div>
                     </li>
@@ -304,6 +327,7 @@
                             </div>
                             <div class="progress-bar">
                                 <div class="progress"></div>
+                                <div class="progress-handle"></div>
                             </div>
                         </div>
                     </li>
@@ -319,6 +343,7 @@
                             </div>
                             <div class="progress-bar">
                                 <div class="progress"></div>
+                                <div class="progress-handle"></div>
                             </div>
                         </div>
                     </li>
@@ -334,6 +359,7 @@
                             </div>
                             <div class="progress-bar">
                                 <div class="progress"></div>
+                                <div class="progress-handle"></div>
                             </div>
                         </div>
                     </li>
@@ -349,6 +375,7 @@
                             </div>
                             <div class="progress-bar">
                                 <div class="progress"></div>
+                                <div class="progress-handle"></div>
                             </div>
                         </div>
                     </li>
@@ -383,20 +410,21 @@
                 if (!currentSong) return;
                 
                 const { currentTime, duration } = audioPlayer;
+                if (isNaN(duration)) return;
+                
                 const progressPercent = (currentTime / duration) * 100;
                 
                 const currentSongElement = document.querySelector(`.song-item[data-song="${currentSong}"]`);
                 if (currentSongElement) {
                     const progressBar = currentSongElement.querySelector('.progress');
+                    const progressHandle = currentSongElement.querySelector('.progress-handle');
                     const currentTimeEl = currentSongElement.querySelector('.current-time');
                     const totalTimeEl = currentSongElement.querySelector('.total-time');
                     
                     progressBar.style.width = `${progressPercent}%`;
+                    progressHandle.style.left = `${progressPercent}%`;
                     currentTimeEl.textContent = formatTime(currentTime);
-                    
-                    if (!isNaN(duration)) {
-                        totalTimeEl.textContent = formatTime(duration);
-                    }
+                    totalTimeEl.textContent = formatTime(duration);
                 }
             }
             
@@ -405,11 +433,17 @@
                 if (currentSong !== songName) return;
                 
                 const progressBar = e.currentTarget;
-                const width = progressBar.clientWidth;
+                const width = progressBar.offsetWidth;
                 const clickX = e.offsetX;
                 const duration = audioPlayer.duration;
                 
-                audioPlayer.currentTime = (clickX / width) * duration;
+                if (isNaN(duration)) return;
+                
+                const newTime = (clickX / width) * duration;
+                audioPlayer.currentTime = newTime;
+                
+                // Немедленное обновление прогресса
+                updateProgress();
             }
             
             // Функция для загрузки и воспроизведения песни
@@ -423,17 +457,13 @@
                 
                 // Устанавливаем новую песню
                 audioPlayer.src = `${songName}.mp3`;
-                audioPlayer.play();
-                currentSong = songName;
-                isPlaying = true;
                 
-                // Обновляем интерфейс
-                document.querySelector(`.song-item[data-song="${songName}"]`).classList.add('playing');
-                nowPlaying.textContent = `Сейчас играет: ${document.querySelector(`.song-item[data-song="${songName}"] .song-title`).textContent}`;
-                
-                // Сбрасываем прогресс для всех треков
+                // Сбрасываем прогресс перед загрузкой новой песни
                 document.querySelectorAll('.progress').forEach(progress => {
                     progress.style.width = '0%';
+                });
+                document.querySelectorAll('.progress-handle').forEach(handle => {
+                    handle.style.left = '0%';
                 });
                 document.querySelectorAll('.current-time').forEach(el => {
                     el.textContent = '0:00';
@@ -441,6 +471,14 @@
                 document.querySelectorAll('.total-time').forEach(el => {
                     el.textContent = '0:00';
                 });
+                
+                audioPlayer.play();
+                currentSong = songName;
+                isPlaying = true;
+                
+                // Обновляем интерфейс
+                document.querySelector(`.song-item[data-song="${songName}"]`).classList.add('playing');
+                nowPlaying.textContent = `Сейчас играет: ${document.querySelector(`.song-item[data-song="${songName}"] .song-title`).textContent}`;
             }
             
             // Функция для переключения воспроизведения/паузы
