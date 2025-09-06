@@ -5,129 +5,205 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Музыкальный плеер</title>
     <style>
-        body {
-            background-image: url('pic1.png');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            font-family: Arial, sans-serif;
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&h=1080&q=80') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
-            color: white;
-            text-shadow: 1px 1px 2px black;
         }
         
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: rgba(0, 0, 0, 0.7);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 500px;
+            background: rgba(30, 30, 40, 0.85);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            text-align: center;
         }
         
         h1 {
-            text-align: center;
-            color: #ffffff;
+            margin-bottom: 25px;
+            color: #6cb2eb;
+            font-size: 32px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         }
         
-        .song-list {
-            list-style-type: none;
-            padding: 0;
+        .player-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-play {
+            background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+        
+        .btn-pause {
+            background: linear-gradient(to right, #ff758c 0%, #ff7eb3 100%);
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .playlist {
+            list-style: none;
+            margin-top: 20px;
         }
         
         .song-item {
             padding: 15px;
-            margin: 10px 0;
-            background-color: rgba(50, 50, 50, 0.7);
-            border-radius: 5px;
+            margin: 12px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
         }
         
         .song-item:hover {
-            background-color: rgba(70, 70, 70, 0.9);
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
         }
         
         .song-item.playing {
-            background-color: rgba(30, 120, 180, 0.9);
-            font-weight: bold;
+            background: rgba(76, 163, 230, 0.2);
+            border-color: #4ca3e6;
+            box-shadow: 0 0 15px rgba(76, 163, 230, 0.4);
         }
         
-        .controls {
+        .song-number {
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
             display: flex;
+            align-items: center;
             justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+            color: #6cb2eb;
+        }
+        
+        .song-title {
+            flex: 1;
+            text-align: left;
+            font-size: 18px;
+        }
+        
+        .now-playing {
             margin-top: 20px;
-            gap: 15px;
-        }
-        
-        button {
-            padding: 12px 25px;
-            background-color: #2c3e50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-        
-        button:hover {
-            background-color: #1e2a36;
-        }
-        
-        #playBtn {
-            background-color: #27ae60;
-        }
-        
-        #playBtn:hover {
-            background-color: #219652;
-        }
-        
-        #pauseBtn {
-            background-color: #e74c3c;
-        }
-        
-        #pauseBtn:hover {
-            background-color: #c0392b;
-        }
-        
-        .current-song {
-            text-align: center;
-            margin-top: 15px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
             font-style: italic;
+            color: #a0d2ff;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+                border-radius: 15px;
+            }
+            
+            h1 {
+                font-size: 26px;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+            
+            .song-item {
+                padding: 12px;
+            }
+            
+            .song-title {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Мой музыкальный плеер</h1>
+        <h1>Музыкальный Плеер</h1>
         
-        <ul class="song-list">
-            <li class="song-item" data-song="sound1">Текст песни 1</li>
-            <li class="song-item" data-song="sound2">Текст песни 2</li>
-            <li class="song-item" data-song="sound3">Текст песни 3</li>
-            <li class="song-item" data-song="sound4">Текст песни 4</li>
-            <li class="song-item" data-song="sound5">Текст песни 5</li>
-        </ul>
-        
-        <div class="controls">
-            <button id="playBtn">Старт</button>
-            <button id="pauseBtn">Пауза</button>
+        <div class="player-controls">
+            <button class="btn btn-play" id="playBtn">▶️ Воспроизвести</button>
+            <button class="btn btn-pause" id="pauseBtn">⏸️ Пауза</button>
         </div>
         
-        <div class="current-song" id="currentSong">Сейчас не играет</div>
+        <ul class="playlist">
+            <li class="song-item" data-song="sound1">
+                <div class="song-number">1</div>
+                <div class="song-title">Трек 1 - Рассвет</div>
+            </li>
+            <li class="song-item" data-song="sound2">
+                <div class="song-number">2</div>
+                <div class="song-title">Трек 2 - Лесная тропа</div>
+            </li>
+            <li class="song-item" data-song="sound3">
+                <div class="song-number">3</div>
+                <div class="song-title">Трек 3 - Морской бриз</div>
+            </li>
+            <li class="song-item" data-song="sound4">
+                <div class="song-number">4</div>
+                <div class="song-title">Трек 4 - Горный воздух</div>
+            </li>
+            <li class="song-item" data-song="sound5">
+                <div class="song-number">5</div>
+                <div class="song-title">Трек 5 - Звездная ночь</div>
+            </li>
+        </ul>
+        
+        <div class="now-playing" id="nowPlaying">Сейчас не играет</div>
     </div>
     
     <audio id="audioPlayer"></audio>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const audioPlayer = document.getElementById('audioPlayer');
             const playBtn = document.getElementById('playBtn');
             const pauseBtn = document.getElementById('pauseBtn');
             const songItems = document.querySelectorAll('.song-item');
-            const currentSongElement = document.getElementById('currentSong');
+            const nowPlaying = document.getElementById('nowPlaying');
             
             let currentSong = null;
             
@@ -139,14 +215,14 @@
                     document.querySelector(`.song-item[data-song="${currentSong}"]`).classList.remove('playing');
                 }
                 
-                // Устанавливаем новую песню
+                // Устанавливаем новую песню (здесь должны быть ваши звуковые файлы)
                 audioPlayer.src = `${songName}.mp3`;
                 audioPlayer.play();
                 currentSong = songName;
                 
                 // Обновляем интерфейс
                 document.querySelector(`.song-item[data-song="${songName}"]`).classList.add('playing');
-                currentSongElement.textContent = `Сейчас играет: ${songName}`;
+                nowPlaying.textContent = `Сейчас играет: ${document.querySelector(`.song-item[data-song="${songName}"] .song-title`).textContent}`;
                 
                 // Обновляем кнопки
                 playBtn.disabled = true;
@@ -166,7 +242,7 @@
                     audioPlayer.play();
                     playBtn.disabled = true;
                     pauseBtn.disabled = false;
-                    currentSongElement.textContent = `Сейчас играет: ${currentSong}`;
+                    nowPlaying.textContent = `Сейчас играет: ${document.querySelector(`.song-item[data-song="${currentSong}"] .song-title`).textContent}`;
                 } else if (songItems.length > 0) {
                     // Если ни одна песня не выбрана, выбираем первую
                     loadSong(songItems[0].getAttribute('data-song'));
@@ -178,7 +254,7 @@
                 audioPlayer.pause();
                 playBtn.disabled = false;
                 pauseBtn.disabled = true;
-                currentSongElement.textContent = 'На паузе';
+                nowPlaying.textContent = 'На паузе';
             });
             
             // Когда песня заканчивается
@@ -187,7 +263,7 @@
                 currentSong = null;
                 playBtn.disabled = false;
                 pauseBtn.disabled = true;
-                currentSongElement.textContent = 'Песня завершена';
+                nowPlaying.textContent = 'Песня завершена';
             });
         });
     </script>
