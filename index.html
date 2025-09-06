@@ -1,1 +1,195 @@
-
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Музыкальный плеер</title>
+    <style>
+        body {
+            background-image: url('pic1.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            color: white;
+            text-shadow: 1px 1px 2px black;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #ffffff;
+        }
+        
+        .song-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .song-item {
+            padding: 15px;
+            margin: 10px 0;
+            background-color: rgba(50, 50, 50, 0.7);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .song-item:hover {
+            background-color: rgba(70, 70, 70, 0.9);
+        }
+        
+        .song-item.playing {
+            background-color: rgba(30, 120, 180, 0.9);
+            font-weight: bold;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 15px;
+        }
+        
+        button {
+            padding: 12px 25px;
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #1e2a36;
+        }
+        
+        #playBtn {
+            background-color: #27ae60;
+        }
+        
+        #playBtn:hover {
+            background-color: #219652;
+        }
+        
+        #pauseBtn {
+            background-color: #e74c3c;
+        }
+        
+        #pauseBtn:hover {
+            background-color: #c0392b;
+        }
+        
+        .current-song {
+            text-align: center;
+            margin-top: 15px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Мой музыкальный плеер</h1>
+        
+        <ul class="song-list">
+            <li class="song-item" data-song="sound1">Текст песни 1</li>
+            <li class="song-item" data-song="sound2">Текст песни 2</li>
+            <li class="song-item" data-song="sound3">Текст песни 3</li>
+            <li class="song-item" data-song="sound4">Текст песни 4</li>
+            <li class="song-item" data-song="sound5">Текст песни 5</li>
+        </ul>
+        
+        <div class="controls">
+            <button id="playBtn">Старт</button>
+            <button id="pauseBtn">Пауза</button>
+        </div>
+        
+        <div class="current-song" id="currentSong">Сейчас не играет</div>
+    </div>
+    
+    <audio id="audioPlayer"></audio>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const audioPlayer = document.getElementById('audioPlayer');
+            const playBtn = document.getElementById('playBtn');
+            const pauseBtn = document.getElementById('pauseBtn');
+            const songItems = document.querySelectorAll('.song-item');
+            const currentSongElement = document.getElementById('currentSong');
+            
+            let currentSong = null;
+            
+            // Функция для загрузки и воспроизведения песни
+            function loadSong(songName) {
+                // Если уже играет какая-то песня, останавливаем её
+                if (currentSong) {
+                    audioPlayer.pause();
+                    document.querySelector(`.song-item[data-song="${currentSong}"]`).classList.remove('playing');
+                }
+                
+                // Устанавливаем новую песню
+                audioPlayer.src = `${songName}.mp3`;
+                audioPlayer.play();
+                currentSong = songName;
+                
+                // Обновляем интерфейс
+                document.querySelector(`.song-item[data-song="${songName}"]`).classList.add('playing');
+                currentSongElement.textContent = `Сейчас играет: ${songName}`;
+                
+                // Обновляем кнопки
+                playBtn.disabled = true;
+                pauseBtn.disabled = false;
+            }
+            
+            // Обработчики для выбора песен
+            songItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    loadSong(this.getAttribute('data-song'));
+                });
+            });
+            
+            // Обработчик для кнопки play
+            playBtn.addEventListener('click', function() {
+                if (currentSong) {
+                    audioPlayer.play();
+                    playBtn.disabled = true;
+                    pauseBtn.disabled = false;
+                    currentSongElement.textContent = `Сейчас играет: ${currentSong}`;
+                } else if (songItems.length > 0) {
+                    // Если ни одна песня не выбрана, выбираем первую
+                    loadSong(songItems[0].getAttribute('data-song'));
+                }
+            });
+            
+            // Обработчик для кнопки pause
+            pauseBtn.addEventListener('click', function() {
+                audioPlayer.pause();
+                playBtn.disabled = false;
+                pauseBtn.disabled = true;
+                currentSongElement.textContent = 'На паузе';
+            });
+            
+            // Когда песня заканчивается
+            audioPlayer.addEventListener('ended', function() {
+                document.querySelector(`.song-item[data-song="${currentSong}"]`).classList.remove('playing');
+                currentSong = null;
+                playBtn.disabled = false;
+                pauseBtn.disabled = true;
+                currentSongElement.textContent = 'Песня завершена';
+            });
+        });
+    </script>
+</body>
+</html>
