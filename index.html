@@ -74,7 +74,6 @@
             transition: all 0.3s ease;
             border: 2px solid transparent;
             overflow: hidden;
-            position: relative;
         }
         
         .song-item:hover {
@@ -110,79 +109,6 @@
             flex: 1;
             text-align: left;
             font-size: 18px;
-        }
-        
-        .volume-controls {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(0, 0, 0, 0.4);
-            padding: 6px 10px;
-            border-radius: 20px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .song-item:hover .volume-controls {
-            opacity: 1;
-        }
-        
-        .volume-btn {
-            width: 24px;
-            height: 24px;
-            border: none;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-        }
-        
-        .volume-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.1);
-        }
-        
-        .volume-btn:active {
-            transform: scale(0.95);
-        }
-        
-        .volume-bar-container {
-            width: 60px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 2px;
-            position: relative;
-            cursor: pointer;
-        }
-        
-        .volume-bar {
-            height: 100%;
-            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
-            border-radius: 2px;
-            width: 100%;
-            transition: width 0.2s ease;
-        }
-        
-        .volume-handle {
-            width: 12px;
-            height: 12px;
-            background: white;
-            border-radius: 50%;
-            position: absolute;
-            top: 50%;
-            right: 0;
-            transform: translate(50%, -50%);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
         }
         
         .progress-container {
@@ -286,19 +212,6 @@
             .progress-info {
                 font-size: 11px;
             }
-            
-            .volume-controls {
-                position: static;
-                transform: none;
-                margin-top: 10px;
-                opacity: 1;
-                justify-content: center;
-                background: transparent;
-            }
-            
-            .song-item:hover .volume-controls {
-                opacity: 1;
-            }
         }
     </style>
 </head>
@@ -314,14 +227,6 @@
                         <div class="song-header">
                             <div class="song-number">1</div>
                             <div class="song-title">Лиса</div>
-                        </div>
-                        <div class="volume-controls">
-                            <button class="volume-btn" data-action="decrease">-</button>
-                            <div class="volume-bar-container">
-                                <div class="volume-bar" style="width: 100%;"></div>
-                                <div class="volume-handle"></div>
-                            </div>
-                            <button class="volume-btn" data-action="increase">+</button>
                         </div>
                         <div class="progress-container">
                             <div class="progress-info">
@@ -339,14 +244,6 @@
                             <div class="song-number">2</div>
                             <div class="song-title">Я капибара</div>
                         </div>
-                        <div class="volume-controls">
-                            <button class="volume-btn" data-action="decrease">-</button>
-                            <div class="volume-bar-container">
-                                <div class="volume-bar" style="width: 100%;"></div>
-                                <div class="volume-handle"></div>
-                            </div>
-                            <button class="volume-btn" data-action="increase">+</button>
-                        </div>
                         <div class="progress-container">
                             <div class="progress-info">
                                 <span class="current-time">0:00</span>
@@ -362,14 +259,6 @@
                         <div class="song-header">
                             <div class="song-number">3</div>
                             <div class="song-title">Сигма бой</div>
-                        </div>
-                        <div class="volume-controls">
-                            <button class="volume-btn" data-action="decrease">-</button>
-                            <div class="volume-bar-container">
-                                <div class="volume-bar" style="width: 100%;"></div>
-                                <div class="volume-handle"></div>
-                            </div>
-                            <button class="volume-btn" data-action="increase">+</button>
                         </div>
                         <div class="progress-container">
                             <div class="progress-info">
@@ -387,14 +276,6 @@
                             <div class="song-number">4</div>
                             <div class="song-title">Обоюдно</div>
                         </div>
-                        <div class="volume-controls">
-                            <button class="volume-btn" data-action="decrease">-</button>
-                            <div class="volume-bar-container">
-                                <div class="volume-bar" style="width: 100%;"></div>
-                                <div class="volume-handle"></div>
-                            </div>
-                            <button class="volume-btn" data-action="increase">+</button>
-                        </div>
                         <div class="progress-container">
                             <div class="progress-info">
                                 <span class="current-time">0:00</span>
@@ -410,14 +291,6 @@
                         <div class="song-header">
                             <div class="song-number">5</div>
                             <div class="song-title">Ты и Я</div>
-                        </div>
-                        <div class="volume-controls">
-                            <button class="volume-btn" data-action="decrease">-</button>
-                            <div class="volume-bar-container">
-                                <div class="volume-bar" style="width: 100%;"></div>
-                                <div class="volume-handle"></div>
-                            </div>
-                            <button class="volume-btn" data-action="increase">+</button>
                         </div>
                         <div class="progress-container">
                             <div class="progress-info">
@@ -441,14 +314,6 @@
                             <div class="song-number">6</div>
                             <div class="song-title">Бобр</div>
                         </div>
-                        <div class="volume-controls">
-                            <button class="volume-btn" data-action="decrease">-</button>
-                            <div class="volume-bar-container">
-                                <div class="volume-bar" style="width: 100%;"></div>
-                                <div class="volume-handle"></div>
-                            </div>
-                            <button class="volume-btn" data-action="increase">+</button>
-                        </div>
                         <div class="progress-container">
                             <div class="progress-info">
                                 <span class="current-time">0:00</span>
@@ -464,14 +329,6 @@
                         <div class="song-header">
                             <div class="song-number">7</div>
                             <div class="song-title">10</div>
-                        </div>
-                        <div class="volume-controls">
-                            <button class="volume-btn" data-action="decrease">-</button>
-                            <div class="volume-bar-container">
-                                <div class="volume-bar" style="width: 100%;"></div>
-                                <div class="volume-handle"></div>
-                            </div>
-                            <button class="volume-btn" data-action="increase">+</button>
                         </div>
                         <div class="progress-container">
                             <div class="progress-info">
@@ -489,14 +346,6 @@
                             <div class="song-number">8</div>
                             <div class="song-title">Облака</div>
                         </div>
-                        <div class="volume-controls">
-                            <button class="volume-btn" data-action="decrease">-</button>
-                            <div class="volume-bar-container">
-                                <div class="volume-bar" style="width: 100%;"></div>
-                                <div class="volume-handle"></div>
-                            </div>
-                            <button class="volume-btn" data-action="increase">+</button>
-                        </div>
                         <div class="progress-container">
                             <div class="progress-info">
                                 <span class="current-time">0:00</span>
@@ -513,14 +362,6 @@
                             <div class="song-number">9</div>
                             <div class="song-title">Айдахар</div>
                         </div>
-                        <div class="volume-controls">
-                            <button class="volume-btn" data-action="decrease">-</button>
-                            <div class="volume-bar-container">
-                                <div class="volume-bar" style="width: 100%;"></div>
-                                <div class="volume-handle"></div>
-                            </div>
-                            <button class="volume-btn" data-action="increase">+</button>
-                        </div>
                         <div class="progress-container">
                             <div class="progress-info">
                                 <span class="current-time">0:00</span>
@@ -536,14 +377,6 @@
                         <div class="song-header">
                             <div class="song-number">10</div>
                             <div class="song-title">Любимка</div>
-                        </div>
-                        <div class="volume-controls">
-                            <button class="volume-btn" data-action="decrease">-</button>
-                            <div class="volume-bar-container">
-                                <div class="volume-bar" style="width: 100%;"></div>
-                                <div class="volume-handle"></div>
-                            </div>
-                            <button class="volume-btn" data-action="increase">+</button>
                         </div>
                         <div class="progress-container">
                             <div class="progress-info">
@@ -574,9 +407,6 @@
             let currentSong = null;
             let isPlaying = false;
             let isDragging = false;
-            
-            // Установка громкости по умолчанию
-            audioPlayer.volume = 1.0;
             
             // Форматирование времени в мм:сс
             function formatTime(seconds) {
@@ -727,24 +557,6 @@
                 });
             }
             
-            // Функция для изменения громкости
-            function changeVolume(action) {
-                let newVolume = audioPlayer.volume;
-                
-                if (action === 'increase') {
-                    newVolume = Math.min(1.0, newVolume + 0.1);
-                } else if (action === 'decrease') {
-                    newVolume = Math.max(0.0, newVolume - 0.1);
-                }
-                
-                audioPlayer.volume = newVolume;
-                
-                // Обновляем все полосы громкости
-                document.querySelectorAll('.volume-bar').forEach(bar => {
-                    bar.style.width = `${newVolume * 100}%`;
-                });
-            }
-            
             // Функция для загрузки и воспроизведения песни
             function loadSong(songName) {
                 // Если уже играет какая-то песня, останавливаем её
@@ -819,13 +631,13 @@
             songItems.forEach(item => {
                 const songName = item.getAttribute('data-song');
                 const progressBar = item.querySelector('.progress-bar');
-                const volumeButtons = item.querySelectorAll('.volume-btn');
+                const songHeader = item.querySelector('.song-header');
                 
-                // Клик по всей области песни (кроме прогресс-бара и кнопок громкости) - воспроизведение/пауза
+                // Клик по всей области песни (кроме прогресс-бара) - воспроизведение/пауза
                 item.addEventListener('click', function(e) {
-                    // Проверяем, был ли клик на прогресс-баре, кнопках громкости или их дочерних элементах
-                    if (e.target.closest('.progress-bar') || e.target.closest('.volume-controls')) {
-                        return; // Не обрабатываем клики на этих элементах
+                    // Проверяем, был ли клик на прогресс-баре или его дочерних элементах
+                    if (e.target.closest('.progress-bar')) {
+                        return; // Не обрабатываем клики на прогресс-баре
                     }
                     
                     togglePlayPause(songName);
@@ -836,14 +648,6 @@
                     if (!isDragging) {
                         setProgress(e, songName);
                     }
-                });
-                
-                // Обработка кнопок громкости
-                volumeButtons.forEach(button => {
-                    button.addEventListener('click', function(e) {
-                        e.stopPropagation(); // Предотвращаем всплытие
-                        changeVolume(this.getAttribute('data-action'));
-                    });
                 });
                 
                 // Настройка перетаскивания ползунка
