@@ -149,7 +149,7 @@
             background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
             border-radius: 10px;
             width: 0%;
-            transition: none; /* Убрали transition для мгновенного обновления */
+            transition: none;
         }
         
         .progress-handle {
@@ -543,10 +543,18 @@
                     document.addEventListener('mouseup', stopDrag, { once: true });
                     document.addEventListener('touchmove', updateDrag);
                     document.addEventListener('touchend', stopDrag, { once: true });
+                    
+                    // Останавливаем всплытие события, чтобы не сработал клик на песню
+                    e.stopPropagation();
                 };
                 
                 progressBar.addEventListener('mousedown', startDrag);
                 progressBar.addEventListener('touchstart', startDrag);
+                
+                // Предотвращаем всплытие событий клика на прогресс-баре
+                progressBar.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
             }
             
             // Функция для загрузки и воспроизведения песни
@@ -625,12 +633,14 @@
                 const progressBar = item.querySelector('.progress-bar');
                 const songHeader = item.querySelector('.song-header');
                 
-                // Клик по заголовку песни - воспроизведение/пауза
-                songHeader.addEventListener('click', function(e) {
-                    // Проверяем, был ли клик на самом заголовке, а не на дочерних элементах
-                    if (e.target === songHeader || e.target.closest('.song-header') === songHeader) {
-                        togglePlayPause(songName);
+                // Клик по всей области песни (кроме прогресс-бара) - воспроизведение/пауза
+                item.addEventListener('click', function(e) {
+                    // Проверяем, был ли клик на прогресс-баре или его дочерних элементах
+                    if (e.target.closest('.progress-bar')) {
+                        return; // Не обрабатываем клики на прогресс-баре
                     }
+                    
+                    togglePlayPause(songName);
                 });
                 
                 // Клик по прогресс-бару - перемотка
