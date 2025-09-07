@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Музыкальный плеер с перемоткой</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎵</text></svg>">
     <style>
         * {
             margin: 0;
@@ -152,18 +153,26 @@
         }
         
         .progress-handle {
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
             background: white;
             border-radius: 50%;
             position: absolute;
             top: 50%;
+            left: 0%;
             transform: translate(-50%, -50%);
-            opacity: 0;
-            transition: opacity 0.2s ease;
+            cursor: grab;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
         
-        .progress-bar:hover .progress-handle {
+        .progress-handle:active {
+            cursor: grabbing;
+            transform: translate(-50%, -50%) scale(1.2);
+        }
+        
+        .progress-bar:hover .progress-handle,
+        .progress-bar.dragging .progress-handle {
             opacity: 1;
         }
         
@@ -396,6 +405,7 @@
             
             let currentSong = null;
             let isPlaying = false;
+            let isDragging = false;
             
             // Форматирование времени в мм:сс
             function formatTime(seconds) {
@@ -407,7 +417,7 @@
             
             // Обновление прогресса для текущего трека
             function updateProgress() {
-                if (!currentSong) return;
+                if (!currentSong || isDragging) return;
                 
                 const { currentTime, duration } = audioPlayer;
                 if (isNaN(duration)) return;
@@ -444,6 +454,67 @@
                 
                 // Немедленное обновление прогресса
                 updateProgress();
+            }
+            
+            // Функция для перетаскивания ползунка
+            function setupDragAndDrop(progressBar, songName) {
+                let isDragging = false;
+                
+                const startDrag = (e) => {
+                    if (currentSong !== songName) return;
+                    
+                    isDragging = true;
+                    progressBar.classList.add('dragging');
+                    document.body.style.userSelect = 'none';
+                    
+                    // Остановить автоматическое обновление во время перетаскивания
+                    audioPlayer.pause();
+                    const wasPlaying = isPlaying;
+                    isPlaying = false;
+                    
+                    const updateDrag = (moveEvent) => {
+                        if (!isDragging) return;
+                        
+                        const rect = progressBar.getBoundingClientRect();
+                        let clickX = moveEvent.clientX - rect.left;
+                        clickX = Math.max(0, Math.min(clickX, rect.width));
+                        
+                        const duration = audioPlayer.duration;
+                        if (isNaN(duration)) return;
+                        
+                        const newTime = (clickX / rect.width) * duration;
+                        audioPlayer.currentTime = newTime;
+                        
+                        // Обновить визуальное отображение
+                        const progressPercent = (clickX / rect.width) * 100;
+                        const progress = progressBar.querySelector('.progress');
+                        const progressHandle = progressBar.querySelector('.progress-handle');
+                        const currentTimeEl = progressBar.closest('.song-item').querySelector('.current-time');
+                        
+                        progress.style.width = `${progressPercent}%`;
+                        progressHandle.style.left = `${progressPercent}%`;
+                        currentTimeEl.textContent = formatTime(newTime);
+                    };
+                    
+                    const stopDrag = () => {
+                        isDragging = false;
+                        progressBar.classList.remove('dragging');
+                        document.body.style.userSelect = '';
+                        
+                        if (wasPlaying) {
+                            audioPlayer.play();
+                            isPlaying = true;
+                        }
+                    };
+                    
+                    document.addEventListener('mousemove', updateDrag);
+                    document.addEventListener('mouseup', stopDrag, { once: true });
+                    document.addEventListener('touchmove', updateDrag);
+                    document.addEventListener('touchend', stopDrag, { once: true });
+                };
+                
+                progressBar.addEventListener('mousedown', startDrag);
+                progressBar.addEventListener('touchstart', startDrag);
             }
             
             // Функция для загрузки и воспроизведения песни
@@ -489,9 +560,13 @@
                         audioPlayer.pause();
                         isPlaying = false;
                         nowPlaying.textContent = 'На паузе';
+                        // Убираем подсветку при паузе
+                        document.querySelector(`.song-item[data-song="${songName}"]`).classList.remove('playing');
                     } else {
                         audioPlayer.play();
                         isPlaying = true;
+                        // Возвращаем подсветку при воспроизведении
+                        document.querySelector(`.song-item[data-song="${songName}"]`).classList.add('playing');
                         nowPlaying.textContent = `Сейчас играет: ${document.querySelector(`.song-item[data-song="${songName}"] .song-title`).textContent}`;
                     }
                 } else {
@@ -513,8 +588,13 @@
                 
                 // Клик по прогресс-бару - перемотка
                 progressBar.addEventListener('click', function(e) {
-                    setProgress(e, songName);
+                    if (!isDragging) {
+                        setProgress(e, songName);
+                    }
                 });
+                
+                // Настройка перетаскивания ползунка
+                setupDragAndDrop(progressBar, songName);
             });
             
             // События для аудиоплеера
